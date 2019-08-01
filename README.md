@@ -99,7 +99,10 @@ function getallheaders() {
 - [ ] 以类Jquery Ajax的方式发起请求
 - [x] 发起GET/POST请求
 - [ ] 发起PUT/PATCH/DELETE/OPTIONS操作
-- [x] 以application/x-www-form-urlencoded形式提交post数据
+- [x] 以application/x-www-form-urlencoded形式提交pqost数据
 - [x] 以application/json形式提交post数据
 - [ ] 以multipart/form-data形式提交post数据
 - [ ] proxy代理设置
+
+## 版本记录
+- 0.2.0 增加head请求类型、增加Post方法参数为json的情况
