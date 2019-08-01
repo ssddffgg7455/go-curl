@@ -4,7 +4,7 @@
 ## 安装
 
 ```
-go get github.com/mikemintang/go-curl
+go get github.com/ssddffgg7455/go-curl
 ```
   
 ## 使用
@@ -14,7 +14,7 @@ package main
 
 import (
     "fmt"
-    "github.com/mikemintang/go-curl"
+    "github.com/ssddffgg7455/go-curl"
 )
 
 func main() {
@@ -43,6 +43,8 @@ func main() {
         "interests": []string{"basketball", "reading", "coding"},
         "isAdmin":   true,
     }
+    
+    postJson := `{"age":24,"interests":["basketball","reading","coding"],"isAdmin":true,"name":"mike"}`
 
     // 链式操作
     req := curl.NewRequest()
@@ -50,8 +52,9 @@ func main() {
         SetUrl(url).
         SetHeaders(headers).
         SetCookies(cookies).
-        SetQueries(queries).
-        SetPostData(postData).
+        SetQueries(queries).    //get参数
+        SetPostData(postData).  //post map
+        SetPostJson(postJson).  //post json
         Post()
 
     if err != nil {
