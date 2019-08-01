@@ -30,6 +30,7 @@ type Request struct {
 	Cookies         map[string]string
 	Queries         map[string]string
 	PostData        map[string]interface{}
+	PostJson		[]byte
 }
 
 // 创建一个Request实例
@@ -38,6 +39,16 @@ func NewRequest() *Request {
 	r.dialTimeout = 5
 	r.responseTimeOut = 5
 	return r
+}
+
+//SetDialTimeOut
+func (this *Request) SetDialTimeOut(TimeOutSecond int) {
+	this.dialTimeout = time.Duration(TimeOutSecond)
+}
+
+//SetResponseTimeOut
+func (this *Request) SetResponseTimeOut(TimeOutSecond int) {
+	this.responseTimeOut = time.Duration(TimeOutSecond)
 }
 
 // 设置请求方法
@@ -105,9 +116,30 @@ func (this *Request) SetPostData(postData map[string]interface{}) *Request {
 	return this
 }
 
+// 设置post请求的提交数据
+func (this *Request) SetPostJson(postJson []byte) *Request {
+	this.PostJson = postJson
+	return this
+}
+
 // 发起get请求
 func (this *Request) Get() (*Response, error) {
 	return this.Send(this.Url, http.MethodGet)
+}
+
+// 发起get请求
+func (this *Request) GET() (*Response, error) {
+	return this.Send(this.Url, http.MethodGet)
+}
+
+// 发起post请求
+func (this *Request) Post() (*Response, error) {
+	return this.Send(this.Url, http.MethodPost)
+}
+
+// 发起post请求
+func (this *Request) POST() (*Response, error) {
+	return this.Send(this.Url, http.MethodPost)
 }
 
 // 发起Delete请求
@@ -116,13 +148,13 @@ func (this *Request) Delete() (*Response, error) {
 }
 
 // 发起Delete请求
-func (this *Request) Put() (*Response, error) {
-	return this.Send(this.Url, http.MethodPut)
+func (this *Request) DELETE() (*Response, error) {
+	return this.Send(this.Url, http.MethodDelete)
 }
 
-// 发起post请求
-func (this *Request) Post() (*Response, error) {
-	return this.Send(this.Url, http.MethodPost)
+// 发起Put请求
+func (this *Request) Put() (*Response, error) {
+	return this.Send(this.Url, http.MethodPut)
 }
 
 // 发起put请求
@@ -130,19 +162,24 @@ func (this *Request) PUT() (*Response, error) {
 	return this.Send(this.Url, http.MethodPut)
 }
 
-// 发起put请求
-func (this *Request) PATCH() (*Response, error) {
+// 发起资源头部请求
+func (this *Request) Head() (*Response, error) {
+	return this.Send(this.Url, http.MethodHead)
+}
+
+// 发起资源头部请求
+func (this *Request) HEAD() (*Response, error) {
+	return this.Send(this.Url, http.MethodHead)
+}
+
+// 发起patch请求
+func (this *Request) Patch() (*Response, error) {
 	return this.Send(this.Url, http.MethodPatch)
 }
 
-//SetDialTimeOut
-func (this *Request) SetDialTimeOut(TimeOutSecond int) {
-	this.dialTimeout = time.Duration(TimeOutSecond)
-}
-
-//SetResponseTimeOut
-func (this *Request) SetResponseTimeOut(TimeOutSecond int) {
-	this.responseTimeOut = time.Duration(TimeOutSecond)
+// 发起patch请求
+func (this *Request) PATCH() (*Response, error) {
+	return this.Send(this.Url, http.MethodPatch)
 }
 
 // 发起请求
@@ -181,6 +218,8 @@ func (this *Request) Send(url string, method string) (*Response, error) {
 		} else {
 			payload = bytes.NewReader(jData)
 		}
+	} else if method == "POST" && this.PostJson != nil{
+		payload = bytes.NewReader(this.PostJson)
 	} else {
 		payload = nil
 	}
