@@ -109,3 +109,4 @@ function getallheaders() {
 
 ## 版本记录
 - 0.2.0 增加head请求类型、增加Post方法参数为json的情况
+- 0.2.1 增加put请求类型、使用方法同post
