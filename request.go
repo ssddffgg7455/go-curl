@@ -210,15 +210,16 @@ func (this *Request) Send(url string, method string) (*Response, error) {
 		},
 		////////////
 	}
-	// 加载用户自定义的post数据到http.Request
+	// 加载用户自定义的body数据到http.Request
+	// put方法同post方法
 	var payload io.Reader
-	if method == "POST" && this.PostData != nil {
+	if this.PostData != nil {
 		if jData, err := json.Marshal(this.PostData); err != nil {
 			return nil, err
 		} else {
 			payload = bytes.NewReader(jData)
 		}
-	} else if method == "POST" && this.PostJson != nil{
+	} else if this.PostJson != nil{
 		payload = bytes.NewReader(this.PostJson)
 	} else {
 		payload = nil
